@@ -19,19 +19,13 @@
 <body>
 <div class="layui-form layuimini-form">
     <div class="layui-form-item">
-        <label class="layui-form-label required">用户名</label>
-        <div class="layui-input-block">
-            <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名" value="" class="layui-input">
-            <tip>填写自己租赁名称。</tip>
+        <label class="layui-form-label required">种类名称</label>
+        <div class="layui-input-block">	
+            <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="种类名不能为空" placeholder="请输入种类名" value="" class="layui-input">
+            <tip>填写自己种类名称。</tip>
         </div>
     </div>
     
-    <div class="layui-form-item">
-        <label class="layui-form-label required">手机</label>
-        <div class="layui-input-block">
-            <input type="number" name="phone" id="phone" lay-verify="required" lay-reqtext="手机不能为空" placeholder="请输入手机" value="" class="layui-input">
-        </div>
-    </div>
     
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -48,7 +42,7 @@
             layer = layui.layer,
             $ = layui.$;
 			$("#name").val(parent.answer_id.name);
-			$("#phone").val(parent.answer_id.phone);
+			
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
@@ -67,12 +61,12 @@
 
     //         return false;
 	$.ajax({
-		url:'https://workspace.cn1.utools.club/TourismLease/api/tenant/updateOne',
+		url:'https://workspace.cn1.utools.club/TourismLease/api/goodstype/updateOne',
 		type:'POST',
 		data:{
 			id:parent.answer_id.id,
 			name:$("#name").val(),
-			phone:$("#phone").val(),
+	
 			token: getCookie("token"),
 			username:getCookie("username"),
 		},

@@ -18,18 +18,13 @@
 <body>
 <div class="layui-form layuimini-form">
     <div class="layui-form-item">
-        <label class="layui-form-label required">租赁用户名</label>
+        <label class="layui-form-label required">种类名称</label>
         <div class="layui-input-block">
-            <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名" value="" class="layui-input">
-            <tip>填写租赁用户名。</tip>
+            <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="种类不能为空" placeholder="请输入种类" value="" class="layui-input">
+            <tip>填写种类名。</tip>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label required">手机号</label>
-        <div class="layui-input-block">
-            <input type="text" name="phone" id="phone" lay-verify="required" lay-reqtext="请输入手机号" placeholder="请输入手机号" value="" class="layui-input">
-        </div>
-    </div>
+  
     
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -48,11 +43,11 @@
         form.on('submit(saveBtn)', function (data) {
 			
 			$.ajax({
-				url:'https://workspace.cn1.utools.club/TourismLease/api/tenant/insertOne',
+				url:'https://workspace.cn1.utools.club/TourismLease/api/goodstype/insertOne',
 				type:'POST',
 				data:{
 					name:$("#name").val(),
-					phone:$("#phone").val(),
+			
 					token: getCookie("token"),
 					username:getCookie("username"),
 				},

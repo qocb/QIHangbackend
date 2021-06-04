@@ -82,7 +82,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'https://workspace.cn1.utools.club/TourismLease/api/tenant/queryAll',
+            url: 'https://workspace.cn1.utools.club/TourismLease/api/goodstype/queryAll',
             toolbar: '#toolbarDemo',
 			cellMinWidth: 160,
 			size:"lg",
@@ -94,8 +94,8 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'id',  title: 'ID', sort: true},
-                {field: 'name',  title: '用户名'},
-                {field: 'phone', title: '手机号', sort: true},
+                {field: 'name',  title: '种类'},
+                {field: 'createtime', title: '时间', sort: true},
                 
                 {title: '操作',  toolbar: '#currentTableBar', align: "center"}
             ]],
@@ -145,7 +145,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: 'ZuLinuser-add.html',
+                    content: 'CangKuType-add.html',
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -176,7 +176,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: '../../page/ZuLinuser/ZuLinuser-edit.html',
+                    content: '../../page/CangKuType/CangKuType-edit.html',
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -187,7 +187,7 @@
                     obj.del();
                     layer.close(index);
 					$.ajax({
-						url:'https://workspace.cn1.utools.club/TourismLease/api/tenant/deleteOne',
+						url:'https://workspace.cn1.utools.club/TourismLease/api/goodstype/deleteOne',
 						type:'POST',
 						data:{
 							id:data.id,

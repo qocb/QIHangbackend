@@ -70,7 +70,20 @@
             <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
         </script>
+		
+		<script type="text/html" id="user">
+            <a class="layui-btn layui-btn-primary layui-border-green" lay-event="user">用户</a>
+        </script>
 
+
+		<script type="text/html" id="leaseinfo">
+		    <a class="layui-btn layui-btn-primary layui-border-green" lay-event="leaseinfo">租赁信息</a>
+		</script>
+		
+		<script type="text/html" id="breakinfo">
+		    <a class="layui-btn layui-btn-primary layui-border-green" lay-event="breakinfo">损坏信息</a>
+		</script>
+		
     </div>
 </div>
 <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
@@ -82,7 +95,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: 'https://workspace.cn1.utools.club/TourismLease/api/tenant/queryAll',
+            url: 'https://workspace.cn1.utools.club/TourismLease/api/lease/queryAll',
             toolbar: '#toolbarDemo',
 			cellMinWidth: 160,
 			size:"lg",
@@ -94,11 +107,27 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'id',  title: 'ID', sort: true},
-                {field: 'name',  title: '用户名'},
-                {field: 'phone', title: '手机号', sort: true},
-                
+               
+                {title: '用户',  toolbar: '#user', align: "center"},
+				{title: '租赁信息',  toolbar: '#leaseinfo', align: "center"},
+				{field: 'createtime',  title: '租赁时间', sort: true},
+				{field: 'endtime',  title: '结束时间', sort: true},
+				{field: 'deposit',  title: '押金', sort: true},
+				{field: 'rent',  title: '租金', sort: true},
+				{title: '损坏信息',  toolbar: '#breakinfo', align: "center"},
+				{field: 'status',  title: '状态', sort: true, },
                 {title: '操作',  toolbar: '#currentTableBar', align: "center"}
             ]],
+			done: function(res, curr, count){
+			               
+			                $("[data-field='status']").children().each(function(){
+			                    if($(this).text()=='0'){
+			                        $(this).text("正在租用")
+			                    }else if($(this).text()=='1'){
+			                        $(this).text("已还")
+			                    }
+			                });
+			},
             limits: [10, 15, 20, 25, 50, 100],
             limit: 5,
             page: true,
@@ -204,10 +233,94 @@
 						}
 					})
                 });
-            }
+            }else if(obj.event==='user'){
+				var data = obj.data;
+				console.log(data);
+				layer.open({
+				    type: 0,
+				    content:"用户id:"+JSON.parse(data.user).uid+"<br>"+
+					"用户姓名:"+JSON.parse(data.user).name+"<br>"+
+					"用户电话:"+JSON.parse(data.user).phone
+					
+				});
+			}else if(obj.event==='leaseinfo'){
+				var data = obj.data;
+				console.log(data);
+				
+				var data = JSON.parse(data.leaseinfo)
+				
+				
+			
+				layer.open({
+				    type: 0,
+					
+				     content:parseArr(data)
+					
+				});
+			}else if(obj.event==='breakinfo'){
+				var data = obj.data;
+				console.log(data);
+				
+				var data = JSON.parse(data.breakinfo)
+				
+				
+			
+				layer.open({
+				    type: 0,
+					
+						content:shParseArr(data)
+					
+				     
+					
+				});
+			}
+			
+			
         });
 
     });
+	
+	 
+	/**
+	 * 解析租赁信息数组
+	 * @param {Object} data
+	 */
+	function parseArr(data){
+		var str = "";
+		if(data==null){
+			return "无租赁记录" 
+			
+		}
+		data.forEach(item=>{
+			var numbers = "";
+			item.number.forEach(number=>{
+				numbers += number
+				numbers += ","
+			})
+			str += "租赁id:"+item.id+"<br>"+"租赁编号:"+numbers+"<br>"+"<br>"
+		})
+		return str
+	}
+	/**
+	 * 解析损坏信息数组
+	 * @param {Object} data
+	 */
+	function shParseArr(data){
+		var str = "";
+		if(data==null){
+			return "无损坏记录" 
+			
+		}
+		data.forEach(item=>{
+			var numbers = "";
+			item.number.forEach(number=>{
+				numbers += number
+				numbers += ","
+			})
+			str += "租赁id:"+item.id+"<br>"+"租赁编号:"+numbers+"<br>"+"<br>"
+		})
+		return str
+	}
 </script>
 
 </body>
