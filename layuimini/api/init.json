@@ -41,6 +41,20 @@
 		      }
 		    ]
 		  },
+		  {
+		    "title": "租赁用户管理",
+		    "href": "",
+		    "icon": "fa fa-home",
+		    "target": "_self",
+		    "child": [
+		      {
+		        "title": "租赁用户列表",
+		        "href": "page/ZuLinUser/ZuLinUser-list.html",
+		        "icon": "fa fa-tachometer",
+		        "target": "_self"
+		      }
+		    ]
+		  },
         {
           "title": "主页模板",
           "href": "",
