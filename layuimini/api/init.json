@@ -44,6 +44,34 @@
 		    ]
 		  },
 		  {
+		    "title": "仓库种类管理",
+		    "href": "",
+		    "icon": "fa fa-home",
+		    "target": "_self",
+		    "child": [
+		      {
+		        "title": "仓库种类列表",
+		        "href": "page/CangKuType/CangKuType-list.html",
+		        "icon": "fa fa-tachometer",
+		        "target": "_self"
+		      }
+		    ]
+		  },
+		  {
+		    "title": "租赁订单管理",
+		    "href": "",
+		    "icon": "fa fa-home",
+		    "target": "_self",
+		    "child": [
+		      {
+		        "title": "租赁订单列表",
+		        "href": "page/ZuLinOrder/ZuLinOrder-list.html",
+		        "icon": "fa fa-tachometer",
+		        "target": "_self"
+		      }
+		    ]
+		  },
+		  {
 		    "title": "仓库信息管理",
 		    "href": "",
 		    "icon": "fa fa-home",
