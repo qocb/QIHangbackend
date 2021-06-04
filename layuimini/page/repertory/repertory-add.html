@@ -18,31 +18,43 @@
 <body>
 <div class="layui-form layuimini-form">
     <div class="layui-form-item">
-        <label class="layui-form-label required">管理员用户名</label>
+        <label class="layui-form-label required">器材名</label>
         <div class="layui-input-block">
-            <input type="text" name="name" lay-verify="required" id="name" lay-reqtext="用户名不能为空" placeholder="请输入用户名" value="" class="layui-input">
-            <tip>填写管理的名称。</tip>
+            <input type="text" name="name" lay-verify="required" id="name" lay-reqtext="器材名" placeholder="请输入器材名" value="" class="layui-input">
+            <tip>器材名</tip>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">请输入密码</label>
+        <label class="layui-form-label required">商品现存</label>
         <div class="layui-input-block">
-            <input type="text" name="password" lay-verify="required" id="password" lay-reqtext="请输入密码" placeholder="请输入密码" value="" class="layui-input">
+            <input type="text" name="count" lay-verify="required" id="count" lay-reqtext="商品现存" placeholder="商品现存" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">邮箱</label>
+        <label class="layui-form-label">商品进价</label>
         <div class="layui-input-block">
-            <input type="email" name="email" placeholder="请输入邮箱" id="email" value="" class="layui-input">
+            <input type="number" name="money" placeholder="商品进价" id="money" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">权限等级</label>
+        <label class="layui-form-label">商品每件的押金</label>
         <div class="layui-input-block">
-            <input type="number" name="level" id="level" placeholder="请输入权限等级" value="" class="layui-input">
+            <input type="number" name="unitdeposit" id="unitdeposit" placeholder="商品每件的押金" value="" class="layui-input">
         </div>
     </div>
-
+	
+	<div class="layui-form-item">
+	    <label class="layui-form-label">商品每小时的租金</label>
+	    <div class="layui-input-block">
+	        <input type="number" name="unitprice" id="unitprice" placeholder="商品每小时的租金" value="" class="layui-input">
+	    </div>
+	</div>
+	<div class="layui-form-item">
+	    <label class="layui-form-label">商品种类id</label>
+	    <div class="layui-input-block">
+	        <input type="number" name="type" id="type" placeholder="商品种类id" value="" class="layui-input">
+	    </div>
+	</div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn" id="saveBtn">确认保存</button>
@@ -59,7 +71,7 @@
 		
 		//监听提交
 		form.on('submit(saveBtn)', function (data) {
-		    var index = layer.alert("添加用户", {
+		    var index = layer.alert("添加器材", {
 		        title: '最终的提交信息'
 		    }, function () {
 				data = data.field;
@@ -68,7 +80,7 @@
 				// 关闭弹出层	
 		        layer.close(index);
 				$.ajax({
-					    url: "https://workspace.cn1.utools.club/TourismLease/api/employee/insertOne",
+					    url: "https://workspace.cn1.utools.club/TourismLease/api/repertory/insertOne",
 					    type:"POST", //请求方式
 					    data:data,
 						dataType:"json",

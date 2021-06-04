@@ -91,7 +91,7 @@
 
 				table.render({
 					elem: '#currentTableId',
-					url: 'https://workspace.cn1.utools.club/TourismLease/api/employee/queryAll',
+					url: 'https://workspace.cn1.utools.club/TourismLease/api/repertory/queryAll',
 					toolbar: '#toolbarDemo',
 					cellMinWidth: 160,
 					size: "lg",
@@ -103,7 +103,6 @@
 					cols: [
 						[{
 								type: "checkbox",
-								width: 50
 							},
 							{
 								field: 'id',
@@ -111,30 +110,44 @@
 								sort: true
 							},
 							{
+								field: 'type.name',
+								title: '器材种类名',
+								templet:'<div>{{d.type.name}}</div>'
+							},
+							{
+								field: 'count',
+								title: '现存数量',
+								sort: true
+							},
+							{
+								field: 'money',
+								title: '进价',
+								sort: true
+								
+							},
+							{
+								field: "unitdeposit",
+								title: "租金",
+								// templet: '<div></div>',
+								sort: true
+							},
+							{
+								field: 'unitprice',
+								title: '每小时价格',
+								sort: true
+							},
+							{
 								field: 'name',
-								title: '用户名'
+								title: '器材名',
+								sort: true,
 							},
 							{
-								field: 'password',
-								title: '性别',
-								sort: true
+								field: 'type.createtime',
+								title: '加入时间',
+								sort: true,
+								templet:'<div>{{d.type.createtime}}</div>'
 							},
-							{
-								field: 'email',
-								title: '城市'
-							},
-							{
-								field: "img",
-								width: 300,
-								title: "头像",
-								align: "center",
-								templet: '<div><img id="edit" data-id="{{d.id}}" class="layui-nav-img" style="height: 100px;width: 100px;" src="https://workspace.cn1.utools.club/TourismLease/api/myinfo/img/{{d.avatar}}"></div>',
-							},
-							{
-								field: 'level',
-								title: 'level',
-								sort: true
-							},
+							
 							{
 								title: '操作',
 								toolbar: '#currentTableBar',
@@ -173,42 +186,6 @@
 					return false;
 				});
 
-				$(document).on("click", "#edit", function(data) {
-					var src = $(this).attr("src");
-					var id = $(this).attr("data-id");
-					console.log(id);
-					//多窗口模式，层叠置顶
-					layer.open({
-						type: 1, //此处以iframe举例
-						title: "查看与修改头像",
-						area: ["300px", "400px"],
-						shade: 0,
-						maxmin: true,
-						offset: [
-							//为了演示，随机坐标
-							$(window).height() / 2 - 200,
-							$(window).width() / 2 - 200,
-						],
-						content: '<div style="width: 100%;" ><img src="' +
-							src +
-							'" style="width: 100%;"></img></div>',
-						btn: ["上传图片", "关闭"], //只是为了演示
-						yes: function() {
-							//上传图片
-							console.log(id)
-							$("#test1").attr("data-id", id);
-							$("#test1").click();
-						},
-						btn2: function() {
-							//关闭
-							layer.closeAll();
-						},
-						zIndex: layer.zIndex, //重点1
-						success: function(layero) {
-							layer.setTop(layero); //重点2
-						},
-					});
-				});
 				
 				/**
 				 * toolbar监听事件
@@ -222,7 +199,7 @@
 							maxmin: true,
 							shadeClose: true,
 							area: ['100%', '100%'],
-							content: 'user-add.html',
+							content: 'repertory-add.html',
 						});
 						$(window).on("resize", function() {
 							layer.full(index);
@@ -252,7 +229,7 @@
 							maxmin: true,
 							shadeClose: true,
 							area: ['100%', '100%'],
-							content: 'user-edit.html',
+							content: 'repertory-edit.html',
 						});
 						$(window).on("resize", function() {
 							layer.full(index);
@@ -266,9 +243,13 @@
 							data.token= getCookie("token");
 							data.username = getCookie("username");
 							$.ajax({
-								    url: "https://workspace.cn1.utools.club/TourismLease/api/employee/deleteOne",
+								    url: "https://workspace.cn1.utools.club/TourismLease/api/repertory/deleteOne",
 								    type:"POST", //请求方式
-								    data:data,
+								    data:{
+										token: getCookie("token"),
+										username: getCookie("username"),
+										id : data.id,
+									},
 									dataType:"json",
 								    timeout: 5000, //超时时间设置， 单位毫秒
 								    async: true, //是否异步
