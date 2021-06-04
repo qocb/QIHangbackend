@@ -16,7 +16,7 @@
       "target": "_self",
       "child": [
 		  {
-		    "title": "租赁用户管理",
+		    "title": "用户管理",
 		    "href": "",
 		    "icon": "fa fa-home",
 		    "target": "_self",
