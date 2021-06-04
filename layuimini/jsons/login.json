@@ -1,0 +1,11 @@
+{
+	"msg":"验证码发送成功",
+	"code":0,
+	"data":{
+            "id":1,
+            "username":"mengban",
+            "email":"2662252561@qq.com",
+            "avatar":"avatar.jpg",
+            "level":0
+    }
+}
