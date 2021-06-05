@@ -1,92 +1,163 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>layui</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
-    <link rel="stylesheet" href="../../css/public.css" media="all">
-	
-	<script src="../../js/Cookies.js" type="text/javascript" charset="utf-8"></script>
-    <style>
-        body {
-            background-color: #ffffff;
-        }
-    </style>
-</head>
-<body>
-<div class="layui-form layuimini-form">
-    <div class="layui-form-item">
-        <label class="layui-form-label required">用户名</label>
-        <div class="layui-input-block">
-            <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名" value="" class="layui-input">
-            <tip>填写自己租赁名称。</tip>
-        </div>
-    </div>
-    
-    <div class="layui-form-item">
-        <label class="layui-form-label required">手机</label>
-        <div class="layui-input-block">
-            <input type="number" name="phone" id="phone" lay-verify="required" lay-reqtext="手机不能为空" placeholder="请输入手机" value="" class="layui-input">
-        </div>
-    </div>
-    
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
-        </div>
-    </div>
-</div>
-</div>
-<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-<script>
-    layui.use(['form'], function () {
-		
-        var form = layui.form,
-            layer = layui.layer,
-            $ = layui.$;
-			$("#name").val(parent.answer_id.name);
-			$("#phone").val(parent.answer_id.phone);
+	<head>
+		<meta charset="utf-8">
+		<title>layui</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../css/public.css" media="all">
 
-        //监听提交
-        form.on('submit(saveBtn)', function (data) {
-    //         var index = layer.alert(JSON.stringify(data.field), {
-				
-    //             title: '最终的提交信息'
-    //         }, function () {
-
-    //             // 关闭弹出层
-    //             layer.close(index);
-
-    //             var iframeIndex = parent.layer.getFrameIndex(window.name);
-    //             parent.layer.close(iframeIndex);
-
-    //         });
-
-    //         return false;
-	$.ajax({
-		url:'https://workspace.cn1.utools.club/TourismLease/api/tenant/updateOne',
-		type:'POST',
-		data:{
-			id:parent.answer_id.id,
-			name:$("#name").val(),
-			phone:$("#phone").val(),
-			token: getCookie("token"),
-			username:getCookie("username"),
-		},
-		success:function(data){
-			if(data.code==0){
-				console.log(data);
-			}else{
-				alert(data.msg)
+		<script src="../../js/Cookies.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			body {
+				background-color: #ffffff;
 			}
-		}
-	})
-        });
+		</style>
+	</head>
+	<body>
+		<div class="layui-form layuimini-form">
+			<div class="layui-btn-group demoTable">
+				<button class="layui-btn" data-type="getCheckData">结束订单</button>
+				<!-- <button class="layui-btn" data-type="getCheckLength">获取选中数目</button> -->
+				<!-- <button class="layui-btn" data-type="isAll">验证是否全选</button> -->
+			</div>
 
-    });
-</script>
-</body>
+
+			<table class="layui-hide" id="demo" lay-filter="demo"></table>
+
+		</div>
+		</div>
+		<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+		<script>
+			
+				
+			
+			var test = JSON.parse(parent.answer_id.leaseinfo)
+			var dataList = [];
+			test.forEach(d =>{
+				
+				if(d.number.length>1){
+					d.number.forEach(number=>{
+						var obj = {};
+						obj.id = d.id;
+						obj.number = number;
+						dataList.push(obj);
+				})
+				}
+				else{
+					var obj = {};
+					obj.id = d.id;
+					obj.number = d.number[0];
+					dataList.push(obj);
+				}
+			})
+			console.log(dataList)
+			layui.use('table', function() {
+				var table = layui.table;
+				//展示已知数据
+				table.render({
+					elem: '#demo',
+					loading: false,
+					cols: [
+						[ //标题栏
+							{
+								type: "checkbox",
+							},
+							{
+								field: 'id',
+								title: 'ID',
+								sort: true,
+							}, {
+								field: 'number',
+								title: 'number',
+							}
+						]
+					],
+					data: dataList,
+					even: true
+				});
+				
+				var table = layui.table;
+				  //监听表格复选框选择
+				  table.on('checkbox(demo)', function(obj){
+				  });			  
+				  var $ = layui.$, active = {
+				    getCheckData: function(){ //获取选中数据
+				      var checkStatus = table.checkStatus('demo')
+				      ,data = checkStatus.data;
+					  layer.confirm('确定要结束订单吗',function(){
+						  console.log(JSON.stringify(data));
+						  // var  data = JSON.stringify(data);
+						  var id = parent.answer_id.id;
+						  var breakinfo = [];
+						  console.log(data)
+						  // data.forEach(d =>{
+							 //  if(breakinfo.length==0){
+								//   var obj = {}
+								//   obj.id = d.id
+								//   obj.number = 1;
+								//   breakinfo.push()
+							 //  }
+							 //  breakinfo.forEach( b =>{
+								//   if(b.id = d.id){
+								// 	  b.number = b.number+1;
+								//   }else{
+								// 	  b.id = d.id;
+								// 	  b.number = 1;
+								// 	  breakinfo.push()
+								//   }
+							 //  })
+						  // })
+						  var IdList = []
+						  data.forEach(d=>{
+							  if(IdList.indexOf(d.id)==-1){
+								  IdList.push(d.id);
+							  }
+						  })
+						  IdList.forEach( i =>{
+							  var obj = {};
+							  obj.id = i;
+							  obj.number = [];
+							  breakinfo.push(obj);
+						  })
+						  data.forEach(d =>{
+							  var obj = {};
+							  breakinfo.forEach( b =>{
+								  if(b.id == d.id){
+									  b.number.push(d.number);
+								  }
+							  })
+						  })
+						  var jsonstr =JSON.stringify(breakinfo);
+						  console.log(breakinfo);
+						  $.ajax({
+						  	url:'https://workspace.cn1.utools.club/TourismLease/api/lease/updateOne?id='+id+'&token='+getCookie("token")+'&username='+getCookie("username"),
+						  	type:'POST',
+							dataType : 'json',
+							contentType : 'application/json',
+						  	data:jsonstr,
+						  	success:function(data){
+						  		if(data.code==0){
+						  			layer.msg(data.msg)
+						  			var iframeIndex = parent.layer.getFrameIndex(window.name);
+						  			parent.layer.close(iframeIndex);
+						  			table.reload("currentTableFilter",{},true);
+						  		}else{
+						  			layer.msg(data.msg)
+						  		}
+						  	}
+						  })
+					  });
+				    }
+				  };
+				  
+				  $('.demoTable .layui-btn').on('click', function(){
+				    var type = $(this).data('type');
+				    active[type] ? active[type].call(this) : '';
+				  });
+			});
+		</script>
+	</body>
 </html>
