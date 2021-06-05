@@ -19,9 +19,9 @@
 	<body>
 		<div class="layui-form layuimini-form">
 			<div class="layui-btn-group demoTable">
-				<button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-				<button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-				<button class="layui-btn" data-type="isAll">验证是否全选</button>
+				<button class="layui-btn" data-type="getCheckData">结束订单</button>
+				<!-- <button class="layui-btn" data-type="getCheckLength">获取选中数目</button> -->
+				<!-- <button class="layui-btn" data-type="isAll">验证是否全选</button> -->
 			</div>
 
 
@@ -112,7 +112,6 @@
 						  // })
 						  var IdList = []
 						  data.forEach(d=>{
-							  
 							  if(IdList.indexOf(d.id)==-1){
 								  IdList.push(d.id);
 							  }
@@ -132,38 +131,26 @@
 							  })
 						  })
 						  var jsonstr =JSON.stringify(breakinfo);
-						  // var jsonstr = {
-						  // 		"id":id,
-								// "breakinfo":JSON.stringify(breakinfo),
-						  // 		"token": getCookie("token"),
-						  // 		"username":getCookie("username"),
-						  // 	}
-						  //?id='+id+'&token='+getCookie("token")+'&username='+getCookie("username")
-						  //?id='+id+'&token='+getCookie("token")+'&username='+getCookie("username")
 						  console.log(breakinfo);
 						  $.ajax({
-						  	url:'https://workspace.cn1.utools.club/TourismLease/api/lease/updateOne',
+						  	url:'https://workspace.cn1.utools.club/TourismLease/api/lease/updateOne?id='+id+'&token='+getCookie("token")+'&username='+getCookie("username"),
 						  	type:'POST',
 							dataType : 'json',
 							contentType : 'application/json',
-						  	data:{
-								// "id":id,
-								jsonstr
-								// "token": getCookie("token"),
-								// "username":getCookie("username"),
-							},
+						  	data:jsonstr,
 						  	success:function(data){
 						  		if(data.code==0){
-						  			console.log(data);
+						  			layer.msg(data.msg)
+						  			var iframeIndex = parent.layer.getFrameIndex(window.name);
+						  			parent.layer.close(iframeIndex);
+						  			table.reload("currentTableFilter",{},true);
 						  		}else{
-						  			alert(data.msg)
+						  			layer.msg(data.msg)
 						  		}
-						  		
 						  	}
 						  })
 					  });
 				    }
-
 				  };
 				  
 				  $('.demoTable .layui-btn').on('click', function(){
